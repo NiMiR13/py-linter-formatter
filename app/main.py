@@ -16,8 +16,9 @@ def format_single_linter_file(file_path: str, errors: list) -> dict:
             if error["filename"] == file_path
         ],
         "path": file_path,
-        # Используем any(), чтобы быстро проверить наличие ошибок без создания лишних списков
-        "status": "failed" if any(err["filename"] == file_path for err in errors) else "passed",
+        "status": "failed" if any(
+            err["filename"] == file_path for err in errors
+        ) else "passed",
     }
 
 
