@@ -11,20 +11,18 @@ def format_linter_error(error: dict) -> dict:
 def format_single_linter_file(file_path: str, errors: list) -> dict:
     return {
         "errors": [
-            format_linter_error(err)
-            for err in errors
-            if err["filename"] == file_path
+            format_linter_error(error)
+            for error in errors
+            if error["filename"] == file_path
         ],
         "path": file_path,
-        "status": "failed" if [
-            format_linter_error(err)
-            for err in errors
-            if err["filename"] == file_path
-        ] else "passed",
+        # Используем any(), чтобы быстро проверить наличие ошибок без создания лишних списков
+        "status": "failed" if any(err["filename"] == file_path for err in errors) else "passed",
     }
 
 
 def format_linter_report(linter_report: dict) -> list:
+    # Здесь просто вызываем первую функцию для каждого файла, как и просил Люк
     return [
         format_single_linter_file(path, errors)
         for path, errors in linter_report.items()
